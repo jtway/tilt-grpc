@@ -32,3 +32,7 @@ for the [BrewFather] integration. This will be similar to what is in
 [go-tilt-exporter]. This will allow me to have the Bluetooth handling on a
 raspberry PI and not worry about dealing with it from a container using either
 docker or my home k3s (k8s) cluster.
+
+[go-tilt-exporter]: https://github.com/jtway/go-tilt-exporter
+[go-tilt]: https://github.com/jtway/go-tilt
+[BrewFather]: https://brewfather.app

@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package tiltproxy;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+message TiltDevice {
+    string color = 1;
+    uint32 temperature = 2;
+    float specificGravity = 3;
+    google.protobuf.Timestamp lastReading = 4;
+}
+
+// The request message containing the user's name
+message TiltRequest {
+    enum Color {
+        Red = 0;
+        Green = 1; 
+        Black = 2;
+        Purple = 3;
+        Orange = 4;
+        Blue = 5;
+        Yellow = 6;
+        Pink = 7;
+    }
+    Color color = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        title: "The color of the Tilt device to return data for"
+    }];
+}
+
+// The response message containing the greetings
+message TiltResponse {
+  TiltDevice tilt = 1;
+}
+
+message TiltsRequest {
+
+}
+
+message TiltsResponse {
+    repeated TiltDevice device = 1;
+}
+
+// The TiltData service definition
+service TiltService {
+
+  rpc Tilt (TiltRequest) returns (TiltResponse) {
+    option (google.api.http) = {
+        get: "/v1/tilt"
+    };
+  }
+  rpc Tilts (TiltsRequest) returns (TiltsResponse) {
+    option (google.api.http) = {
+        get: "/v1/tilts"
+    };
+  }
+}

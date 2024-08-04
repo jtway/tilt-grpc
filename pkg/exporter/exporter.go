@@ -6,5 +6,5 @@ type Exporter interface {
 	Start() error
 	Stop()
 
-	EmitTiltData(tilt tilt.Tilt)
+	TiltDataEvent(tilt tilt.Tilt)
 }

@@ -8,6 +8,7 @@ import (
 	"encoding/hex"
 	"log"
 	"math"
+	"time"
 
 	"github.com/jtway/tilt-proxy/pkg/ibeacon"
 	"github.com/pkg/errors"
@@ -34,16 +35,21 @@ var tiltType = map[string]string{
 
 // Tilt struct
 type Tilt struct {
-	Color           string  `json:"color"`
-	Temp            uint16  `json:"temp"`
-	SpecificGravity float64 `json:"specific_gravity"`
+	Color           string    `json:"color"`
+	Temp            uint16    `json:"temp"`
+	SpecificGravity float64   `json:"specific_gravity"`
+	ReadingTime     time.Time `json:"reading_time"`
 }
 
 // NewTilt returns a Tilt from an iBeacon
 func NewTilt(b *ibeacon.IBeacon) (*Tilt, error) {
 	if col, ok := tiltType[b.UUID]; ok {
-		return &Tilt{Color: col, Temp: b.Major, SpecificGravity: float64(b.Minor) / 1000}, nil
-
+		return &Tilt{
+			Color:           col,
+			Temp:            b.Major,
+			SpecificGravity: float64(b.Minor) / 1000,
+			ReadingTime:     time.Now(),
+		}, nil
 	}
 	return nil, ErrNotTilt
 }
